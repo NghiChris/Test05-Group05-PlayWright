@@ -1,6 +1,6 @@
 import { test, expect } from "@playwright/test";
-import { DashboardPage } from "../pages/Dashboard";
-import { KhoaThamKhaoPage } from "../pages/KhoaHoc/ThamKhao";
+import { DashboardPage } from "../../pages/Dashboard";
+import { KhoaThamKhaoPage } from "../../pages/KhoaHoc/ThamKhao";
 
 test.describe("Test function reference course", () => {
     let dashboard: DashboardPage;

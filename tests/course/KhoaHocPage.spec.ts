@@ -1,8 +1,8 @@
 import { test, expect } from "@playwright/test";
-import { DashboardPage } from "../pages/Dashboard";
-import { DanhSachPage, logTheoMoTa } from "../pages/KhoaHoc/DanhSach";
-import { ThongTinKhoaPage } from "../pages/KhoaHoc/ThongTin";
-import { SuKienList } from "../pages/SuKien/SuKienList";
+import { DashboardPage } from "../../pages/Dashboard";
+import { DanhSachPage, logTheoMoTa } from "../../pages/KhoaHoc/DanhSach";
+import { ThongTinKhoaPage } from "../../pages/KhoaHoc/ThongTin";
+import { SuKienList } from "../../pages/SuKien/SuKienList";
 
 test.describe("Test function course", () => {
     let dashboard: DashboardPage;

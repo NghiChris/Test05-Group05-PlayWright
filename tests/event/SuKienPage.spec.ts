@@ -1,9 +1,9 @@
 import { test, expect } from "@playwright/test";
-import { DashboardPage } from "../pages/Dashboard";
-import { TimeAndStartUp } from "../pages/SuKien/Time&StartUp";
-import { SuKienList } from "../pages/SuKien/SuKienList";
-import { CreatorsPage } from "../pages/SuKien/Creators";
-import { NhaTaiTroPage } from "../pages/SuKien/NhaTaiTro";
+import { DashboardPage } from "@pages/Dashboard"; 
+import { TimeAndStartUp } from "@pages/SuKien/Time&StartUp"; 
+import { SuKienList } from "@pages/SuKien/SuKienList"; 
+import { CreatorsPage } from "@pages/SuKien/Creators"; 
+import { NhaTaiTroPage } from "@pages/SuKien/NhaTaiTro"; 
 
 test.describe("Test Function Event", () => {
     let dashboard: DashboardPage;
