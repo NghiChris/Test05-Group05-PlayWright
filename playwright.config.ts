@@ -12,7 +12,9 @@ import dotenv from 'dotenv';
 /**
  * See https://playwright.dev/docs/test-configuration.
  */
+
 dotenv.config();
+
 export default defineConfig({
   testDir: './tests',
   /* Run tests in files in parallel */
@@ -28,17 +30,26 @@ export default defineConfig({
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {
     /* Base URL to use in actions like `await page.goto('/')`. */
-    baseURL: process.env.BASE_URL,
+
+    // baseURL: 'http://localhost:3000',
+    baseURL: process.env.BASE_URL || 'https://demo2.cybersoft.edu.vn/',
+
+  
+
 
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
     trace: 'on-first-retry',
     screenshot: 'only-on-failure',
+
+
+
     video: 'retain-on-failure',
 
     headless: false,
     launchOptions: {
       args: ['--disable-blink-features=AutomationControlled']
     }
+
   },
 
   /* Configure projects for major browsers */

@@ -1,9 +1,16 @@
 {
   "compilerOptions": {
+    "target": "ESNext",
+    "module": "CommonJS",
+    "strict": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
     "baseUrl": ".",
     "paths": {
       "@pages/*": ["pages/*"]
-    }
+    },
+    "types": ["node"]
   },
-  "include": ["tests", "pages"]
+  "include": ["tests", "pages", "playwright.config.ts"]
 }
