@@ -1,7 +1,7 @@
 import { test } from "@playwright/test";
 import { DashboardPage } from "../../pages/Dashboard";
-import { SuKienList } from "../../pages/SuKien/SuKienList"; 
-import { DanhSachPage } from "../../pages/KhoaHoc/DanhSach"; 
+import { SuKienList } from "../../pages/Event/SuKienList"; 
+import { DanhSachPage } from "../../pages/Course/DanhSach"; 
 
 test.describe("Test function event", () => {
     let dashboard: DashboardPage;
