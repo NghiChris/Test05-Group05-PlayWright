@@ -1,5 +1,6 @@
 {
   "compilerOptions": {
+<<<<<<< HEAD
     /* Visit https://aka.ms/tsconfig to read more about this file */
 
     /* Projects */
@@ -111,4 +112,12 @@
     "skipLibCheck": true,
     "types": ["node"]                                  /* Skip type checking all .d.ts files. */
   }
+=======
+    "baseUrl": ".",
+    "paths": {
+      "@pages/*": ["pages/*"]
+    }
+  },
+  "include": ["tests", "pages"]
+>>>>>>> origin/main
 }
