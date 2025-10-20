@@ -1,6 +1,6 @@
 import { test, expect } from "@playwright/test";
 import { DashboardPage } from "../pages/Dashboard";
-import { DanhSachPage } from "../pages/KhoaHoc/DanhSach";
+import { DanhSachPage, logTheoMoTa } from "../pages/KhoaHoc/DanhSach";
 import { ThongTinKhoaPage } from "../pages/KhoaHoc/ThongTin";
 import { SuKienList } from "../pages/SuKien/SuKienList";
 
@@ -41,7 +41,7 @@ test.describe("Test function course", () => {
     test('TC-04,Kiểm tra danh sách khóa học', async () => {
         await dashboard.openKhoaHoc();
         const count = await danhSach.getCourseCount();
-        console.log(`Số lượng khóa học: ${count}`);
+        console.log(`\n Số lượng khóa học: ${count}`);
 
         const firstCourse = await danhSach.getCourseInfo(0);
         console.log(firstCourse);
@@ -49,7 +49,7 @@ test.describe("Test function course", () => {
         await danhSach.verifyAllCoursesHaveTitle();
     });
 
-    test("TC05 & 12,Các tên khoá học trên trang 1 & 2 hiển thị sai tên", async () =>{
+    test("(TC05,06,12,13),Các tên khoá học trên trang 1 & 2 hiển thị sai tên", async () =>{
         await dashboard.openKhoaHoc();
         console.log('\n=== Trang 1 ===')
         await danhSach.logAllCourseTitles();
@@ -57,6 +57,47 @@ test.describe("Test function course", () => {
         await danhSach.nutSau.click();
         console.log('\n=== Trang 2 ===')
         await danhSach.logAllCourseTitles();
+    })
+
+    test('TC-06,Tên khóa học ở danh sách trang 1', async ({ page }) => {
+        await dashboard.openKhoaHoc(); 
+        console.log('\n=== Trang 1 ===')
+        await danhSach.logAllCourseTitles();
+    });
+
+    test('(TC-21,22,32,43,44...)Log tất cả tên khóa học theo từng trang', async () => {
+        await dashboard.openKhoaHoc(); 
+        // Lấy tất cả tên khóa học theo trang
+        const allCourseName = await danhSach.getTatCaKhoaHocTheoTrang();
+
+        allCourseName.forEach((khoaHocTrang, pageIndex) => {
+            console.log(`\n 📘 Trang ${pageIndex + 1}:`);
+            khoaHocTrang.forEach((tenKhoa, khoaIndex) => {
+                console.log(`Tên khoá học  - [${khoaIndex + 1}] ${tenKhoa}`);
+            });
+        });
+    });
+
+    test ("(TC-45,46),Các khoá trùng tiêu đề trang 5", async () => {
+        await dashboard.openKhoaHoc();
+        const pageToLog = 5; 
+
+        await danhSach.goAllPage(pageToLog);
+        console.log(`📘 Trang ${pageToLog}:`);
+        const tongKhoa = await danhSach.getTongKhoa();
+        const titles: string[] = [];
+        const descriptions: string[] = [];
+        const moTaList = await danhSach.getTieuDeKhoa();
+        for (let i = 0; i < tongKhoa; i++) {
+            const titleInList = await danhSach.getTenKhoaAt(i);
+            // const moTa = await dSPage.getTieuDeKhoa();
+            titles.push(titleInList);
+            descriptions.push(moTaList[i]);
+        }
+        
+        // ✅ Log kết quả nhóm
+        logTheoMoTa(titles, descriptions);
+
     })
 
     test("TC-94,Bugs giá Khoá học", async () => {
@@ -109,4 +150,7 @@ test.describe("Test function course", () => {
         }
         await danhSach.scrollToTop();
     })
+
+
+
 })

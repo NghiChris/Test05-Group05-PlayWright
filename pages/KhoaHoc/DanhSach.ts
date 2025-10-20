@@ -237,4 +237,121 @@ export class DanhSachPage {
             await this.page.waitForLoadState("domcontentloaded");
         }
     }
+
+    async getTenKhoaAt(index: number): Promise<string> {
+        return await this.courseCards.nth(index).locator('.stikerCard').textContent().then(t => t?.trim() || '');
+    }
+
+    async getTongKhoa(): Promise<number> {
+      // Chờ khi phần loader biến mất
+      await this.page.waitForSelector('#preloader', { state: 'detached', timeout: 5000 });
+
+      // Chờ khi phần tử khóa học xuất hiện
+      await this.page.waitForSelector('.stikerCard', { state: 'visible', timeout: 5000 });
+
+      // Trả về số lượng khóa học sau khi DOM sẵn sàng
+      return await this.courseCards.count();
+    }
+
+      //Duyệt từng trang
+    async isNextPageAvailable(): Promise<boolean> {
+        if (!(await this.nutSau.isVisible())) return false;
+
+        const ariaDisabled = await this.nutSau.getAttribute('aria-disabled');
+        return ariaDisabled !== 'true';
+    }
+
+    async goToNextPage(): Promise<void> {
+        const isClickable = await this.isNextPageAvailable();
+        if (!isClickable) return;
+        await this.nutSau.click();
+        await this.page.waitForLoadState('networkidle');
+    }
+
+    async getTatCaKhoaHocTheoTrang(): Promise<string[][]> {
+        const allCourses: string[][] = [];
+        let pageNumber = 1;
+
+        while (true) {
+            const pageCourses: string[] = [];
+            const count = await this.getTongKhoa();
+
+            for (let i = 0; i < count; i++) {
+            const name = await this.getTenKhoaAt(i);
+            pageCourses.push(name);
+            }
+
+            console.log(`📄 Trang ${pageNumber}:`, pageCourses);
+            allCourses.push(pageCourses);
+
+            const hasNext = await this.isNextPageAvailable();
+            if (!hasNext) break;
+
+            await this.goToNextPage();
+            pageNumber++;
+        }
+        return allCourses;
+    }
+
+    // Điều hướng tới trang cụ thể
+    async goAllPage(pageNumber: number) {
+        for (let i = 1; i < pageNumber; i++) {
+            const nextBtn = this.page.getByRole('button', { name: 'Next page' });
+            if (!(await nextBtn.isVisible())) throw new Error(`Không thể đến trang ${pageNumber}`);
+            await nextBtn.click();
+            await this.page.waitForLoadState('networkidle');
+        }
+    }
+
+    async getTieuDeKhoa(): Promise<string[]> {
+        const moTaElements = await this.page.locator('.cardGlobalRes .cardBodyGlobal h6');
+        const count = await moTaElements.count();
+        const moTaList: string[] = [];
+
+        for (let i = 0; i < count; i++) {
+            const element = moTaElements.nth(i);
+            await expect(element).toBeVisible({ timeout: 5000 }); // thêm kiểm tra hiển thị
+            const text = await element.textContent();
+            moTaList.push(text?.trim() || '');
+        }
+        return moTaList;
+  }
+
+}
+
+//tái sử dụng gom gọn các khóa học theo mô tả, phân loại 
+export function logTheoMoTa(titles: string[], descriptions: string[]) {
+  const moTaMap = new Map<string, string[]>();
+
+  // Gom nhóm theo mô tả
+  titles.forEach((ten, i) => {
+    const moTa = descriptions[i]?.trim() || '[Không có mô tả]';
+    if (!moTaMap.has(moTa)) moTaMap.set(moTa, []);
+    moTaMap.get(moTa)!.push(ten?.trim() || `Không tên [${i}]`);
+  });
+
+   // Tính tổng khóa có mô tả trùng
+  let countChungMoTa = 0;
+  moTaMap.forEach((list) => {
+    if (list.length > 1) countChungMoTa += list.length;
+  });
+
+  console.log(`\n📘 Tổng số khóa học có mô tả trùng nhau: ${countChungMoTa}\n`);
+
+   // In khóa có mô tả trùng
+  for (const [moTa, list] of moTaMap) {
+    if (list.length > 1) {
+      console.log(`✅ Chung mô tả: "${moTa}"`);
+      list.forEach((title, i) => console.log(`  - [${i + 1}] ${title}`));
+      console.log();
+    }
+  }
+
+  // In khóa riêng biệt
+  for (const [moTa, list] of moTaMap) {
+    if (list.length === 1) {
+      console.log(`❌ Riêng biệt: "${list[0]}" → "${moTa}"`);
+    }
+  }
+  
 }

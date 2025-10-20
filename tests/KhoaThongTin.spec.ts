@@ -65,7 +65,7 @@ test.describe("Test function course information", () => {
 
     })
 
-    test("TC17 - 18,So sánh tên khoá học giữa danh sách và trang thông tin (chỉ lấy khoá trùng tên)", async ({ page }) => {
+    test("TC17 - 18,So sánh tên khoá học danh sách và trang thông tin Trang 2", async ({ page }) => {
         await danhSach.openPage2();
 
         // Chờ danh sách khoá học hiển thị đầy đủ
@@ -113,7 +113,7 @@ test.describe("Test function course information", () => {
 
     test("TC-89,Giới thiệu thông tin khoá học", async () => {
         await danhSach.openPage2();
-        console.log("✅ In ra sau khi click"); 
+        // console.log("✅ In ra sau khi click"); 
         await danhSach.clickAllPage();
 
     })
@@ -156,11 +156,11 @@ test.describe("Test function course information", () => {
         await danhSach.pageCard5.click();
         await page.goBack();
         const titleOnCard4 = await danhSach.titleCard4.innerText();
-        console.log("📄 Tiêu đề trên card:", titleOnCard4);
+        console.log("📄 Tên trên card:", titleOnCard4);
         await danhSach.pageCard4.click();
         await dashboard.waitForDomLoaded();
         const titleOnDetail4 = await thongTinKhoa.getAllTitleText(danhSach.titleDetail4);
-        console.log(`🔍 Tiêu đề trên chi tiết:`, titleOnDetail4);
+        console.log(`🔍 Tên trên chi tiết:`, titleOnDetail4);
     })
     
 
