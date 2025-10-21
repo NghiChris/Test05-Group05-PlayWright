@@ -18,7 +18,7 @@ test.describe("Trang Thông tin", () => {
         await informationPage.verifyBodyContentVisible();
     });
 
-    test("TC-005 Xác minh tất cả các liên kết ở footer có hoạt động", async ({ page }) => {
+    test("TC-004 Xác minh tất cả các liên kết ở footer có hoạt động", async ({ page }) => {
         const informationPage = new InformationPage(page);
         await informationPage.goto();
         await informationPage.gotoThongTin();
