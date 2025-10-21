@@ -32,7 +32,7 @@ export default defineConfig({
     /* Base URL to use in actions like `await page.goto('/')`. */
 
     // baseURL: 'http://localhost:3000',
-    baseURL: process.env.BASE_URL || 'https://demo2.cybersoft.edu.vn/',
+    baseURL: process.env.BASE_URL,
 
   
 
