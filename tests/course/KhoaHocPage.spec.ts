@@ -1,8 +1,8 @@
 import { test, expect } from "@playwright/test";
 import { DashboardPage } from "../../pages/Dashboard";
-import { DanhSachPage, logTheoMoTa } from "../../pages/KhoaHoc/DanhSach";
-import { ThongTinKhoaPage } from "../../pages/KhoaHoc/ThongTin";
-import { SuKienList } from "../../pages/SuKien/SuKienList";
+import { DanhSachPage, logTheoMoTa } from "../../pages/Course/DanhSach";
+import { ThongTinKhoaPage } from "../../pages/Course/ThongTin";
+import { SuKienList } from "../../pages/Event/SuKienList";
 
 test.describe("Test function course", () => {
     let dashboard: DashboardPage;
@@ -68,9 +68,9 @@ test.describe("Test function course", () => {
     test('(TC-21,22,32,43,44...)Log tất cả tên khóa học theo từng trang', async () => {
         await dashboard.openKhoaHoc(); 
         // Lấy tất cả tên khóa học theo trang
-        const allCourseName = await danhSach.getTatCaKhoaHocTheoTrang();
+        const allKhoaName = await danhSach.getTatCaKhoaHocTheoTrang();
 
-        allCourseName.forEach((khoaHocTrang, pageIndex) => {
+        allKhoaName.forEach((khoaHocTrang, pageIndex) => {
             console.log(`\n 📘 Trang ${pageIndex + 1}:`);
             khoaHocTrang.forEach((tenKhoa, khoaIndex) => {
                 console.log(`Tên khoá học  - [${khoaIndex + 1}] ${tenKhoa}`);
