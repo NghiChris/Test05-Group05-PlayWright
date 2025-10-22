@@ -60,7 +60,7 @@ test.describe("Test function course information", () => {
     })
 
     test("TC-11,Kiểm tra UI trang thông tin khóa học Vlearning", async () => {
-        await danhSach.pageCard8.click();
+        await danhSach.pageCard2.click();
         await thongTinKhoa.verifyCourseImage();
 
     })
