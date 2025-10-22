@@ -77,7 +77,9 @@
 
 
 ## 4. Thành viên nhóm & Test cases link
-    1. Tất Xuyến Nghi
+    1. Tất Xuyến Nghi https://docs.google.com/spreadsheets/d/1dtDMiMZ9k-T5Zd0Wuq86gLyMFuQeyzUV/edit?usp=sharing&ouid=114406499832156486914&rtpof=true&sd=true
+
+
     2. Nguyễn Giang Sơn
     3. Trương Hồ Tường Hân
     4. Huỳnh Thị Bích Thuỳ - https://docs.google.com/spreadsheets/d/1jWHwxrnmrFu7QX-PTfSQqhYM7GVCBC1Xr17rYfA8YoQ/edit?usp=sharing
