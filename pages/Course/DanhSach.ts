@@ -40,7 +40,7 @@ export class DanhSachPage {
         this.titleCard4 = page.locator('.stikerCard', { hasText: 'Javascripttasaasdsazxcxz' });
         this.titleDetail4 = page.locator("h4");
         this.pageCard5 = page.locator("a[href='/chitiet/111111111111']");
-        this.pageCard6 = page.locator("a[href='/chitiet/12343554654546456456']");
+        this.pageCard6 = page.locator("a[href='/chitiet/10099922']");
         this.pageCard7 = page.locator("a[href='/chitiet/10099924']");
         this.pageCard8 = page.locator("a[href='/chitiet/100999999']");
         this.pageCard12 = page.locator("a[href='/chitiet/15054']");
@@ -295,12 +295,15 @@ export class DanhSachPage {
 
     // Điều hướng tới trang cụ thể
     async goAllPage(pageNumber: number) {
-        for (let i = 1; i < pageNumber; i++) {
+        for (let i = 0; i < pageNumber; i++) {
             const nextBtn = this.page.getByRole('button', { name: 'Next page' });
             if (!(await nextBtn.isVisible())) throw new Error(`Không thể đến trang ${pageNumber}`);
             await nextBtn.click();
             await this.page.waitForLoadState('networkidle');
         }
+        const current = await this.page.locator('.paginationPages .pageLinkPages[aria-current="page"]').textContent();
+        expect(Number(current)).toBe(pageNumber);
+        return pageNumber;
     }
 
     async getTieuDeKhoa(): Promise<string[]> {
@@ -315,8 +318,42 @@ export class DanhSachPage {
             moTaList.push(text?.trim() || '');
         }
         return moTaList;
-  }
+    }
 
+    // Lấy danh sách khóa học (tên + link hình)
+    async getCourses() {
+        await this.courseCards.first().waitFor({ state: "visible", timeout: 10000 }); // chờ phần tử đầu tiên hiện ra
+        return await this.courseCards.evaluateAll(cards => cards.map(c => ({
+            title: c.querySelector(".stikerCard")?.textContent?.trim() || "",
+            img: c.querySelector("img")?.getAttribute("src") || ""
+        }))
+        );
+    }
+
+    // Tìm khóa trùng / không trùng hình
+    async getDuplicateAndUniqueTitles() {
+        const courses = await this.getCourses();
+        const map: Record<string, string[]> = {};
+
+        courses.forEach(c => {
+            map[c.img] = map[c.img] || [];
+            map[c.img].push(c.title);
+        });
+
+        const duplicates = Object.values(map).filter(t => t.length > 1).flat();
+        const uniques = Object.values(map).filter(t => t.length === 1).flat();
+
+        return { duplicates, uniques };
+    }
+
+        //Điều hướng tới card cụ thể
+    async onlyCard(cardNumber: number) {
+        const card = await this.courseCards.nth(cardNumber - 1);
+        const tenKhoa = await card.locator('.stikerCard').innerText();
+        // await card.scrollIntoViewIfNeeded();
+        await card.click();
+        return tenKhoa.trim();
+    }
 }
 
 //tái sử dụng gom gọn các khóa học theo mô tả, phân loại 

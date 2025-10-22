@@ -68,9 +68,9 @@ test.describe("Test function course", () => {
     test('(TC-21,22,32,43,44...)Log tất cả tên khóa học theo từng trang', async () => {
         await dashboard.openKhoaHoc(); 
         // Lấy tất cả tên khóa học theo trang
-        const allCourseName = await danhSach.getTatCaKhoaHocTheoTrang();
+        const allKhoaName = await danhSach.getTatCaKhoaHocTheoTrang();
 
-        allCourseName.forEach((khoaHocTrang, pageIndex) => {
+        allKhoaName.forEach((khoaHocTrang, pageIndex) => {
             console.log(`\n 📘 Trang ${pageIndex + 1}:`);
             khoaHocTrang.forEach((tenKhoa, khoaIndex) => {
                 console.log(`Tên khoá học  - [${khoaIndex + 1}] ${tenKhoa}`);
